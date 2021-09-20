@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Asistencia App</string>
+    <string name="login">Iniciar Sesión</string>
+    <string name="image_logo_alt">Image Logo</string>
+    <string name="text_username">Username</string>
+    <string name="text_password">Password</string>
+    <string name="text_course">Grado: %1$s</string>
+</resources>
