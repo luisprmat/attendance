@@ -18,7 +18,8 @@ public class StudentsRepository implements StudentsMVP.Model {
         this.presenter = presenter;
         this.students = Arrays.asList(
                 new Student("Marco Vargas", "7A"),
-                new Student("Pepito Perez", "10A")
+                new Student("Pepito Perez", "10A"),
+                new Student("Pablo Hernández", "8B")
         );
     }
 
