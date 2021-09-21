@@ -1,19 +1,19 @@
 package co.com.luisprmat.training.attendance.view.students;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 import co.com.luisprmat.training.attendance.R;
 import co.com.luisprmat.training.attendance.model.entity.Student;
+import co.com.luisprmat.training.attendance.view.BaseActivity;
 
-public class StudentsActivity extends AppCompatActivity implements StudentsMVP.View {
+public class StudentsActivity extends BaseActivity implements StudentsMVP.View {
     private StudentsMVP.Presenter presenter;
 
     RecyclerView rvStudents;
@@ -55,7 +55,7 @@ public class StudentsActivity extends AppCompatActivity implements StudentsMVP.V
     }
 
     @Override
-    public void showActivity(Class<? extends AppCompatActivity> type) {
+    public void showActivity(Class<? extends BaseActivity> type) {
         Intent intent = new Intent(this, type);
         startActivity(intent);
     }

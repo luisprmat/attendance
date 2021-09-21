@@ -1,7 +1,5 @@
 package co.com.luisprmat.training.attendance.view.login;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -10,8 +8,9 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import co.com.luisprmat.training.attendance.R;
+import co.com.luisprmat.training.attendance.view.BaseActivity;
 
-public class LoginActivity extends AppCompatActivity implements LoginMVP.View {
+public class LoginActivity extends BaseActivity implements LoginMVP.View {
     private LoginMVP.Presenter presenter;
 
     TextInputLayout tilUsername, tilPassword;
@@ -64,7 +63,7 @@ public class LoginActivity extends AppCompatActivity implements LoginMVP.View {
     }
 
     @Override
-    public void showActivity(Class<? extends AppCompatActivity> type) {
+    public void showActivity(Class<? extends BaseActivity> type) {
         Intent intent = new Intent(this, type);
         startActivity(intent);
     }

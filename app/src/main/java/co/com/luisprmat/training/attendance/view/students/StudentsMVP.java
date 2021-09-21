@@ -2,11 +2,10 @@ package co.com.luisprmat.training.attendance.view.students;
 
 import android.content.Context;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.List;
 
 import co.com.luisprmat.training.attendance.model.entity.Student;
+import co.com.luisprmat.training.attendance.view.BaseActivity;
 
 public interface StudentsMVP {
     interface Model {
@@ -28,7 +27,7 @@ public interface StudentsMVP {
 
         void loadStudents(List<Student> students);
 
-        void showActivity(Class<? extends AppCompatActivity> type);
+        void showActivity(Class<? extends BaseActivity> type);
 
         void confirmLogout();
     }

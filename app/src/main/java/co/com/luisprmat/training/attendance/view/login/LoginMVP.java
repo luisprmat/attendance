@@ -1,6 +1,6 @@
 package co.com.luisprmat.training.attendance.view.login;
 
-import androidx.appcompat.app.AppCompatActivity;
+import co.com.luisprmat.training.attendance.view.BaseActivity;
 
 public interface LoginMVP {
     interface Model {
@@ -28,6 +28,6 @@ public interface LoginMVP {
 
         void showPasswordError(String message);
 
-        void showActivity(Class<? extends AppCompatActivity> type);
+        void showActivity(Class<? extends BaseActivity> type);
     }
 }
