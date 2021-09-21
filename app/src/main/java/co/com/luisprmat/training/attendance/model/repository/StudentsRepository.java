@@ -6,8 +6,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import co.com.luisprmat.training.attendance.model.entity.Student;
+import co.com.luisprmat.training.attendance.model.network.AttendanceLoader;
 import co.com.luisprmat.training.attendance.view.students.StudentsMVP;
 import co.com.luisprmat.training.attendance.view.students.StudentsPresenter;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class StudentsRepository implements StudentsMVP.Model {
     private StudentsMVP.Presenter presenter;
@@ -25,6 +29,19 @@ public class StudentsRepository implements StudentsMVP.Model {
 
     @Override
     public void loadStudents() {
-        presenter.loadStudents(this.students);
+//        presenter.loadStudents(this.students);
+        presenter.showProgress("Cargando estudiantes ...");
+        AttendanceLoader.getApi().getData().enqueue(new Callback<StudentsResponse>() {
+            @Override
+            public void onResponse(Call<StudentsResponse> call, Response<StudentsResponse> response) {
+                presenter.hideProgress();
+            }
+
+            @Override
+            public void onFailure(Call<StudentsResponse> call, Throwable t) {
+                presenter.hideProgress();
+                presenter.showDialog("Error cargando estudiantes");
+            }
+        });
     }
 }

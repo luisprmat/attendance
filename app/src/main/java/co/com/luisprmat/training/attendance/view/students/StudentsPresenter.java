@@ -21,6 +21,16 @@ public class StudentsPresenter implements StudentsMVP.Presenter {
     }
 
     @Override
+    public void showProgress(String msg) {
+        view.showProgress(msg);
+    }
+
+    @Override
+    public void hideProgress() {
+        view.hideProgress();
+    }
+
+    @Override
     public void loadStudents(List<Student> students) {
         view.loadStudents(students);
     }
@@ -33,5 +43,10 @@ public class StudentsPresenter implements StudentsMVP.Presenter {
     @Override
     public void logoutConfirmed() {
         view.showActivity(LoginActivity.class);
+    }
+
+    @Override
+    public void showDialog(String msg) {
+        view.showOkDialog(msg);
     }
 }

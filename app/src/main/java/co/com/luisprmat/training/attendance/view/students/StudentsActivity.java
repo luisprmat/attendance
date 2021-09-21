@@ -16,7 +16,7 @@ import co.com.luisprmat.training.attendance.view.BaseActivity;
 public class StudentsActivity extends BaseActivity implements StudentsMVP.View {
     private StudentsMVP.Presenter presenter;
 
-    RecyclerView rvStudents;
+//    RecyclerView rvStudents;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +38,8 @@ public class StudentsActivity extends BaseActivity implements StudentsMVP.View {
     private void initUI() {
         presenter = new StudentsPresenter(this);
 
-        rvStudents = findViewById(R.id.rvStudents);
-        rvStudents.setLayoutManager(new LinearLayoutManager(this));
+//        rvStudents = findViewById(R.id.rvStudents);
+//        rvStudents.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
@@ -49,9 +49,9 @@ public class StudentsActivity extends BaseActivity implements StudentsMVP.View {
 
     @Override
     public void loadStudents(List<Student> students) {
-        StudentsAdapter adapter = new StudentsAdapter(this, students);
-
-        rvStudents.setAdapter(adapter);
+//        StudentsAdapter adapter = new StudentsAdapter(this, students);
+//
+//        rvStudents.setAdapter(adapter);
     }
 
     @Override

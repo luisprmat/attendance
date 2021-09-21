@@ -15,11 +15,17 @@ public interface StudentsMVP {
     interface Presenter {
         void loadStudents();
 
+        void showProgress(String msg);
+
+        void hideProgress();
+
         void loadStudents(List<Student> students);
 
         void logout();
 
         void logoutConfirmed();
+
+        void showDialog(String msg);
     }
 
     interface View {
@@ -29,6 +35,12 @@ public interface StudentsMVP {
 
         void showActivity(Class<? extends BaseActivity> type);
 
+        void showProgress(String msg);
+
+        void hideProgress();
+
         void confirmLogout();
+
+        void showOkDialog(String dialogMsg);
     }
 }

@@ -1,7 +1,7 @@
 package co.com.luisprmat.training.attendance.model.entity;
 
 public class Student {
-    private String id;
+    private int id;
     private String name;
     private String course;
 
@@ -10,7 +10,7 @@ public class Student {
         this.course = course;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
