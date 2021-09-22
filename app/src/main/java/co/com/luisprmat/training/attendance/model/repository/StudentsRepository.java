@@ -2,6 +2,7 @@ package co.com.luisprmat.training.attendance.model.repository;
 
 import android.content.Context;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,6 +36,13 @@ public class StudentsRepository implements StudentsMVP.Model {
             @Override
             public void onResponse(Call<StudentsResponse> call, Response<StudentsResponse> response) {
                 presenter.hideProgress();
+                if (response.isSuccessful() && response.body().getData() != null) {
+                    students = new ArrayList<>();
+                    students.addAll(response.body().getData());
+                    presenter.loadStudents(students);
+                } else {
+                    presenter.showDialog("Error cargando estudiantes");
+                }
             }
 
             @Override

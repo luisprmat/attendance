@@ -7,6 +7,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import co.com.luisprmat.training.attendance.R;
@@ -15,8 +16,9 @@ import co.com.luisprmat.training.attendance.view.BaseActivity;
 
 public class StudentsActivity extends BaseActivity implements StudentsMVP.View {
     private StudentsMVP.Presenter presenter;
-
-//    RecyclerView rvStudents;
+    RecyclerView rvStudents;
+    List<Student> students = new ArrayList<>();
+    StudentsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +40,11 @@ public class StudentsActivity extends BaseActivity implements StudentsMVP.View {
     private void initUI() {
         presenter = new StudentsPresenter(this);
 
-//        rvStudents = findViewById(R.id.rvStudents);
-//        rvStudents.setLayoutManager(new LinearLayoutManager(this));
+        rvStudents = findViewById(R.id.rvStudents);
+        rvStudents.setHasFixedSize(true);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        rvStudents.setLayoutManager(linearLayoutManager);
     }
 
     @Override
@@ -49,9 +54,10 @@ public class StudentsActivity extends BaseActivity implements StudentsMVP.View {
 
     @Override
     public void loadStudents(List<Student> students) {
-//        StudentsAdapter adapter = new StudentsAdapter(this, students);
-//
-//        rvStudents.setAdapter(adapter);
+        adapter = new StudentsAdapter(this, students);
+
+        rvStudents.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
