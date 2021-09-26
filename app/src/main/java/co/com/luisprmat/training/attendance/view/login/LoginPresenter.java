@@ -1,5 +1,8 @@
 package co.com.luisprmat.training.attendance.view.login;
 
+import android.content.Context;
+
+import co.com.luisprmat.training.attendance.commons.StorageManager;
 import co.com.luisprmat.training.attendance.model.repository.UserRepository;
 import co.com.luisprmat.training.attendance.view.students.StudentsActivity;
 
@@ -27,7 +30,17 @@ public class LoginPresenter implements LoginMVP.Presenter {
             return;
         }
 
-        model.validateCredentials(info.getEmail(), info.getPassword());
+        model.validateCredentials(info);
+    }
+
+    @Override
+    public void showProgress(String msg) {
+        view.showProgress(msg);
+    }
+
+    @Override
+    public void hideProgress() {
+        view.hideProgress();
     }
 
     @Override
@@ -38,12 +51,18 @@ public class LoginPresenter implements LoginMVP.Presenter {
     }
 
     @Override
-    public void authenticationSuccessful() {
+    public void authenticationSuccessful(String authToken) {
+        StorageManager.getInstance(view.getApplicationContext()).putToken(authToken);
         view.showActivity(StudentsActivity.class);
     }
 
     @Override
     public void authenticationFailure(String message) {
         view.showEmailError(message);
+    }
+
+    @Override
+    public void showDialog(String msg) {
+        view.showOkDialog(msg);
     }
 }

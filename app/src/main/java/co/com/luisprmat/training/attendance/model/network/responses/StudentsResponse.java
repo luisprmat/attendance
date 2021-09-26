@@ -1,4 +1,4 @@
-package co.com.luisprmat.training.attendance.model.repository;
+package co.com.luisprmat.training.attendance.model.network.responses;
 
 import java.util.List;
 
