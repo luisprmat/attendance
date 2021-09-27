@@ -20,6 +20,10 @@ public class LoginPresenter implements LoginMVP.Presenter {
     public void login() {
         LoginInfo info = view.getLoginInfo();
 
+        if (info == null) {
+            view.showActivity(LoginActivity.class);
+        }
+
         if (info.getEmail() == null || info.getEmail().trim().isEmpty()) {
             view.showEmailError("Email es requerido");
             return;
@@ -45,7 +49,12 @@ public class LoginPresenter implements LoginMVP.Presenter {
 
     @Override
     public void authenticate() {
-        if (model.isAuthenticated()) {
+        String token = StorageManager.getInstance(view.getApplicationContext()).getToken();
+        if (token == null) {
+            view.showActivity(LoginActivity.class);
+        }
+
+        if (model.isAuthenticated(token)) {
             view.showActivity(StudentsActivity.class);
         }
     }

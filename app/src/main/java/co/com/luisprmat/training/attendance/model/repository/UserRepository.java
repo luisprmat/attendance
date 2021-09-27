@@ -1,15 +1,13 @@
 package co.com.luisprmat.training.attendance.model.repository;
 
+import android.os.Build;
+
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
-import co.com.luisprmat.training.attendance.model.entity.User;
 import co.com.luisprmat.training.attendance.model.network.AttendanceLoader;
+import co.com.luisprmat.training.attendance.model.network.responses.UserResponse;
 import co.com.luisprmat.training.attendance.model.network.responses.apiError.ApiErrorResponse;
 import co.com.luisprmat.training.attendance.model.network.responses.TokenResponse;
 import co.com.luisprmat.training.attendance.view.login.LoginInfo;
@@ -21,17 +19,6 @@ import retrofit2.Response;
 public class UserRepository implements LoginMVP.Model {
     private LoginMVP.Presenter presenter;
 
-    private List<User> users;
-    private boolean authenticated = false;
-    private LoginInfo info;
-
-    public UserRepository() {
-        this.users = Arrays.asList(
-                new User("luisprmat@hotmail.com", "password"),
-                new User("marco@hotmail.com", "password1")
-        );
-    }
-
     @Override
     public void setLoginPresenter(LoginMVP.Presenter presenter) {
         this.presenter = presenter;
@@ -39,23 +26,13 @@ public class UserRepository implements LoginMVP.Model {
 
     @Override
     public void validateCredentials(LoginInfo info) {
-//        for (User user : users) {
-//            if (user.getUsername().equals(username)
-//            && user.getPassword().equals(password)) {
-//                presenter.authenticationSuccessful();
-//                this.authenticated = true;
-//                //true
-//            }
-//        }
-//        presenter.authenticationFailure("Las credenciales no son válidas");
-//        this.authenticated = false;
-//        //false
-        info = new LoginInfo(info.getEmail(), info.getPassword(), "My New Phone");
+        info = new LoginInfo(info.getEmail(), info.getPassword(), Build.MODEL);
         presenter.showProgress("Iniciando sesión ...");
         AttendanceLoader.getApi().login(info).enqueue(new Callback<TokenResponse>() {
             @Override
             public void onResponse(Call<TokenResponse> call, Response<TokenResponse> response) {
                 presenter.hideProgress();
+                String model = Build.MODEL;
                 if (response.isSuccessful()) {
                     presenter.authenticationSuccessful(response.body().getToken());
                 } else {
@@ -70,6 +47,7 @@ public class UserRepository implements LoginMVP.Model {
                             presenter.authenticationFailure(message);
                         } catch (IOException e) {
                             e.printStackTrace();
+                            presenter.authenticationFailure("Hubo un error desconocido");
                         }
                     } else {
                         presenter.authenticationFailure("Error desconocido");
@@ -86,7 +64,24 @@ public class UserRepository implements LoginMVP.Model {
     }
 
     @Override
-    public boolean isAuthenticated() {
-        return this.authenticated;
+    public boolean isAuthenticated(String authToken) {
+        presenter.showProgress("Verificando autenticación");
+        AttendanceLoader.getApi().user("Bearer " + authToken).enqueue(new Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                presenter.hideProgress();
+                if (response.code() == 401) {
+                    presenter.authenticationFailure("Token inválido");
+                    return;
+                }
+                String username = response.body().getName();
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                presenter.hideProgress();
+            }
+        });
+        return false;
     }
 }

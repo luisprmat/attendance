@@ -10,7 +10,7 @@ public interface LoginMVP {
 
         void setLoginPresenter(Presenter presenter);
 
-        boolean isAuthenticated();
+        boolean isAuthenticated(String token);
     }
 
     interface Presenter {

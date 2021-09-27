@@ -9,6 +9,7 @@ import java.util.List;
 import co.com.luisprmat.training.attendance.model.entity.Student;
 import co.com.luisprmat.training.attendance.model.network.AttendanceLoader;
 import co.com.luisprmat.training.attendance.model.network.responses.StudentsResponse;
+import co.com.luisprmat.training.attendance.view.login.LoginMVP;
 import co.com.luisprmat.training.attendance.view.students.StudentsMVP;
 import co.com.luisprmat.training.attendance.view.students.StudentsPresenter;
 import retrofit2.Call;
@@ -22,16 +23,10 @@ public class StudentsRepository implements StudentsMVP.Model {
 
     public StudentsRepository(Context context, StudentsPresenter presenter) {
         this.presenter = presenter;
-        this.students = Arrays.asList(
-                new Student("Marco Vargas", "7A"),
-                new Student("Pepito Perez", "10A"),
-                new Student("Pablo Hernández", "8B")
-        );
     }
 
     @Override
     public void loadStudents() {
-//        presenter.loadStudents(this.students);
         presenter.showProgress("Cargando estudiantes ...");
         AttendanceLoader.getApi().getData().enqueue(new Callback<StudentsResponse>() {
             @Override
@@ -50,6 +45,23 @@ public class StudentsRepository implements StudentsMVP.Model {
             public void onFailure(Call<StudentsResponse> call, Throwable t) {
                 presenter.hideProgress();
                 presenter.showDialog("Error cargando estudiantes");
+            }
+        });
+    }
+
+    @Override
+    public void logout(String token) {
+        presenter.showProgress("Cerrando sesión ...");
+        AttendanceLoader.getApi().logout("Bearer "+token).enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                presenter.hideProgress();
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                presenter.hideProgress();
+                presenter.showDialog("Error de red");
             }
         });
     }

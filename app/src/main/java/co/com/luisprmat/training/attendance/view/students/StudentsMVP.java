@@ -10,6 +10,8 @@ import co.com.luisprmat.training.attendance.view.BaseActivity;
 public interface StudentsMVP {
     interface Model {
         void loadStudents();
+
+        void logout(String token);
     }
 
     interface Presenter {

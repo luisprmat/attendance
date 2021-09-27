@@ -2,6 +2,7 @@ package co.com.luisprmat.training.attendance.view.students;
 
 import java.util.List;
 
+import co.com.luisprmat.training.attendance.commons.StorageManager;
 import co.com.luisprmat.training.attendance.model.entity.Student;
 import co.com.luisprmat.training.attendance.model.repository.StudentsRepository;
 import co.com.luisprmat.training.attendance.view.login.LoginActivity;
@@ -42,6 +43,10 @@ public class StudentsPresenter implements StudentsMVP.Presenter {
 
     @Override
     public void logoutConfirmed() {
+        String token = StorageManager.getInstance(view.getApplicationContext()).getToken();
+        model.logout(token);
+        StorageManager.getInstance(view.getApplicationContext()).putToken(null);
+
         view.showActivity(LoginActivity.class);
     }
 
