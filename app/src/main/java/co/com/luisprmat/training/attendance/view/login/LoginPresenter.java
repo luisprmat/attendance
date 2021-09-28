@@ -50,12 +50,12 @@ public class LoginPresenter implements LoginMVP.Presenter {
     @Override
     public void authenticate() {
         String token = StorageManager.getInstance(view.getApplicationContext()).getToken();
-        if (token == null) {
-            view.showActivity(LoginActivity.class);
-        }
-
-        if (model.isAuthenticated(token)) {
-            view.showActivity(StudentsActivity.class);
+        if (token != null) {
+            if (model.isAuthenticated(token)) {
+                view.showActivity(StudentsActivity.class);
+            } else {
+                StorageManager.getInstance(view.getApplicationContext()).putToken(null);
+            }
         }
     }
 

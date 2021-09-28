@@ -19,6 +19,8 @@ import retrofit2.Response;
 public class UserRepository implements LoginMVP.Model {
     private LoginMVP.Presenter presenter;
 
+    private UserResponse user;
+
     @Override
     public void setLoginPresenter(LoginMVP.Presenter presenter) {
         this.presenter = presenter;
@@ -59,29 +61,44 @@ public class UserRepository implements LoginMVP.Model {
             public void onFailure(Call<TokenResponse> call, Throwable t) {
                 presenter.hideProgress();
                 presenter.showDialog("Error iniciando sesión ...");
+                return;
             }
         });
     }
 
     @Override
     public boolean isAuthenticated(String authToken) {
+        checkUser(authToken);
+        UserResponse currentUser = getAuthUser();
+
+        return currentUser != null;
+    }
+
+    private void checkUser(String token) {
         presenter.showProgress("Verificando autenticación");
-        AttendanceLoader.getApi().user("Bearer " + authToken).enqueue(new Callback<UserResponse>() {
+        AttendanceLoader.getApi().user("Bearer " + token).enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 presenter.hideProgress();
                 if (response.code() == 401) {
-                    presenter.authenticationFailure("Token inválido");
-                    return;
+                    setAuthUser(null);
                 }
-                String username = response.body().getName();
+                setAuthUser(response.body());
             }
 
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
                 presenter.hideProgress();
+                setAuthUser(null);
             }
         });
-        return false;
+    }
+
+    private UserResponse getAuthUser() {
+        return user;
+    }
+
+    private void setAuthUser(UserResponse user) {
+        this.user = user;
     }
 }
