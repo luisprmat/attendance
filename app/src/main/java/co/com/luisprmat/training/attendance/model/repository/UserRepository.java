@@ -66,9 +66,11 @@ public class UserRepository implements LoginMVP.Model {
 
     @Override
     public void loadUser(String token) {
+        presenter.showProgress("Verificando autenticación ...");
         AttendanceLoader.getApi().user("Bearer " + token).enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                presenter.hideProgress();
                 if (response.code() == 401) {
                     presenter.loadUser(null);
                 }
@@ -77,6 +79,7 @@ public class UserRepository implements LoginMVP.Model {
 
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
+                presenter.hideProgress();
                 presenter.loadUser(null);
             }
         });
