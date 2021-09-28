@@ -11,7 +11,10 @@ public class AttendanceLoader {
     private static AttendanceLoader loader;
 
     // URL to access from AVD - (In laravel enable as 'php artisan serve')
-    private final String URL_BASE = "http://10.0.2.2:8000/api/v1/";
+    //private final String URL_BASE = "http://10.0.2.2:8000/api/v1/";
+
+    // URL to access from heroku app
+    private final String URL_BASE = "https://luisprmat-attendance.herokuapp.com/api/v1/";
 
     // Singleton pattern
     public static AttendanceApi getApi() {
