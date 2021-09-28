@@ -1,8 +1,7 @@
 package co.com.luisprmat.training.attendance.view.login;
 
-import android.content.Context;
-
 import co.com.luisprmat.training.attendance.commons.StorageManager;
+import co.com.luisprmat.training.attendance.model.network.responses.UserResponse;
 import co.com.luisprmat.training.attendance.model.repository.UserRepository;
 import co.com.luisprmat.training.attendance.view.students.StudentsActivity;
 
@@ -43,20 +42,30 @@ public class LoginPresenter implements LoginMVP.Presenter {
     }
 
     @Override
+    public void loadUser() {
+        String token = StorageManager.getInstance(view.getApplicationContext()).getToken();
+        if (token != null) {
+            model.loadUser(token);
+        }
+    }
+
+    @Override
+    public void loadUser(UserResponse user) {
+        if (user != null) {
+            view.showActivity(StudentsActivity.class);
+        } else {
+            StorageManager.getInstance(view.getApplicationContext()).putToken(null);
+        }
+    }
+
+    @Override
     public void hideProgress() {
         view.hideProgress();
     }
 
     @Override
     public void authenticate() {
-        String token = StorageManager.getInstance(view.getApplicationContext()).getToken();
-        if (token != null) {
-            if (model.isAuthenticated(token)) {
-                view.showActivity(StudentsActivity.class);
-            } else {
-                StorageManager.getInstance(view.getApplicationContext()).putToken(null);
-            }
-        }
+        loadUser();
     }
 
     @Override

@@ -11,13 +11,19 @@ public interface LoginMVP {
 
         void setLoginPresenter(Presenter presenter);
 
-        boolean isAuthenticated(String token);
+//        boolean isAuthenticated(String token);
+
+        void loadUser(String token);
     }
 
     interface Presenter {
         void login();
 
         void showProgress(String msg);
+
+        void loadUser();
+
+        void loadUser(UserResponse user);
 
         void hideProgress();
 
