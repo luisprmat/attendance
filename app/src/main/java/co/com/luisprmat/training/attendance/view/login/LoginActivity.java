@@ -47,7 +47,7 @@ public class LoginActivity extends BaseActivity implements LoginMVP.View {
     @Override
     protected void onStart() {
         super.onStart();
-//        presenter.authenticate();
+        presenter.authenticate();
     }
 
     @Override

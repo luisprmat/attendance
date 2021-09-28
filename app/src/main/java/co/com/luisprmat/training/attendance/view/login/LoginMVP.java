@@ -2,6 +2,7 @@ package co.com.luisprmat.training.attendance.view.login;
 
 import android.content.Context;
 
+import co.com.luisprmat.training.attendance.model.network.responses.UserResponse;
 import co.com.luisprmat.training.attendance.view.BaseActivity;
 
 public interface LoginMVP {
