@@ -59,6 +59,7 @@ public class UserRepository implements LoginMVP.Model {
             public void onFailure(Call<TokenResponse> call, Throwable t) {
                 presenter.hideProgress();
                 presenter.showDialog("Error iniciando sesión ...");
+                return;
             }
         });
     }
